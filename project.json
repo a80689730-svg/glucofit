@@ -1,0 +1,24 @@
+{
+  "overview": "GlucoFit is a full-stack health tracking app for monitoring blood glucose and weight. Users can log readings, view trends in charts, and manage their health history. Admins get a live dashboard with user data and notifications when new entries are submitted.",
+  "features": [
+    "Blood glucose logging with mg/dL and mmol/L support",
+    "Weight tracking with kg/lbs support",
+    "Health data history with filtering and sorting",
+    "Trend charts for glucose and weight (7/14/30 day views)",
+    "Admin dashboard with real-time polling notifications",
+    "Admin users list and per-user data detail view",
+    "Secure login with role-based access (user and admin)",
+    "Responsive design with GlucoFit branding (blue + green)"
+  ],
+  "category": "health-fitness",
+  "tags": [
+    "health",
+    "glucose",
+    "fitness",
+    "tracking",
+    "admin",
+    "dashboard",
+    "charts"
+  ],
+  "last_updated": "2026-04-23T14:12:22.772Z"
+}

@@ -1,0 +1,186 @@
+type WeightUnit = 
+ variant {
+   kg;
+   lbs;
+ };
+type WeightEntry = 
+ record {
+   createdAt: Timestamp;
+   id: nat;
+   notes: text;
+   recordedAt: Timestamp;
+   unit: WeightUnit;
+   userId: UserId;
+   value: float64;
+ };
+type UserSummary = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   entryCount: nat;
+   fullName: text;
+   id: UserId;
+ };
+type UserId = principal;
+type UserDetail = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   fullName: text;
+   glucoseEntries: vec GlucoseEntry;
+   id: UserId;
+   weightEntries: vec WeightEntry;
+ };
+type User = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   fullName: text;
+   id: UserId;
+   role: Role;
+ };
+type Timestamp = int;
+type SignupInput = 
+ record {
+   email: text;
+   fullName: text;
+   password: text;
+ };
+type Role = 
+ variant {
+   admin;
+   user;
+ };
+type Result__3_1 = 
+ variant {
+   err: text;
+   ok: UserDetail;
+ };
+type Result__3 = 
+ variant {
+   err: text;
+   ok: vec UserSummary;
+ };
+type Result__2 = 
+ variant {
+   err: text;
+   ok: User;
+ };
+type Result__1_2 = 
+ variant {
+   err: text;
+   ok: GlucoseEntry;
+ };
+type Result__1_1 = 
+ variant {
+   err: text;
+   ok: WeightEntry;
+ };
+type Result__1 = 
+ variant {
+   err: text;
+   ok: HealthPage;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: nat;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: vec Notification;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type NotificationKind = 
+ variant {
+   glucose;
+   weight;
+ };
+type Notification = 
+ record {
+   id: nat;
+   isRead: bool;
+   kind: NotificationKind;
+   timestamp: Timestamp;
+   unit: text;
+   userId: UserId;
+   userName: text;
+   value: float64;
+ };
+type LoginInput = 
+ record {
+   email: text;
+   password: text;
+ };
+type HealthPage = 
+ record {
+   glucoseEntries: vec GlucoseEntry;
+   limit: nat;
+   offset: nat;
+   total: nat;
+   weightEntries: vec WeightEntry;
+ };
+type GlucoseUnit = 
+ variant {
+   mgdl;
+   mmoll;
+ };
+type GlucoseEntry = 
+ record {
+   createdAt: Timestamp;
+   id: nat;
+   notes: text;
+   readingTime: Timestamp;
+   unit: GlucoseUnit;
+   userId: UserId;
+   value: float64;
+ };
+type AuthResult = 
+ variant {
+   err: text;
+   ok: record {
+         token: text;
+         user: User;
+       };
+ };
+type AddWeightInput = 
+ record {
+   notes: text;
+   recordedAt: Timestamp;
+   unit: WeightUnit;
+   value: float64;
+ };
+type AddGlucoseInput = 
+ record {
+   notes: text;
+   readingTime: Timestamp;
+   unit: GlucoseUnit;
+   value: float64;
+ };
+service : {
+  addGlucoseEntry: (token: text, input: AddGlucoseInput) -> (Result__1_2);
+  addWeightEntry: (token: text, input: AddWeightInput) -> (Result__1_1);
+  adminGetUserDetail: (token: text, userId: UserId) -> (Result__3_1) query;
+  adminListUsers: (token: text) -> (Result__3) query;
+  getAllHealthEntries: (token: text, offset: nat, limit: nat) ->
+   (Result__1) query;
+  getMe: (token: text) -> (Result__2) query;
+  getMyHealthEntries: (token: text, offset: nat, limit: nat) ->
+   (Result__1) query;
+  getUnreadNotificationCount: (token: text) -> (Result_2) query;
+  getUnreadNotifications: (token: text) -> (Result_1) query;
+  getUserHealthEntries: (token: text, userId: UserId, offset: nat, limit:
+   nat) -> (Result__1) query;
+  initAdmin: () -> (text);
+  isAdmin: () -> (bool) query;
+  login: (input: LoginInput) -> (AuthResult);
+  logout: (token: text) -> ();
+  markNotificationsRead: (token: text, ids: vec nat) -> (Result);
+  resetAdmin: () -> (text);
+  signup: (input: SignupInput) -> (AuthResult);
+}
